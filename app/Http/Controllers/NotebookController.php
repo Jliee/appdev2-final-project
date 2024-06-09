@@ -63,7 +63,7 @@ class NotebookController extends Controller
 
         $notebook->delete(); 
        
-        return response(null, 204);
+        return $this->success(null, 'Notebook deleted successfully', 200);
         
     }
 }

@@ -15,8 +15,9 @@ class PageController extends Controller
      */
     public function index()
     {
+        // return Page::all();
         return PageResource::collection(
-            Page::where('user_id', Auth::user()->id)->get()
+            Page::where('notebook_id', Auth::user()->id)->get()
         );
     }
 

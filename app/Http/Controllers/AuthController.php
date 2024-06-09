@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -49,12 +50,13 @@ class AuthController extends Controller
 
 
 
-    public function logout(){
+    public function logout(Request $request)
+    {
+        // Delete the current token using the request token method
+        $request->user()->tokens()->where('id', $request->user()->currentAccessToken()->id)->delete();
 
-        Auth::user()->currentAccessToken()->delete(); 
-        
-        return $this->success(['message' => 'You are now logged out and we took your token :P']);
-    } 
+        return response()->json(['message' => 'You are now logged out and we took your token :P']);
+    }
 }
 
 
