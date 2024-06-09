@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreNotebookRequest;
+use App\Http\Resources\ThisNotebookResource;
 use App\Models\Notebook;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
@@ -15,9 +16,10 @@ class NotebookController extends Controller
 
     public function index()
     {
-        return NotebookResource::collection(
-            Notebook::where('user_id', Auth::user()->id)->get()
-        );
+
+        $notebooks = Notebook::where('user_id', Auth::id())->get();
+
+        return NotebookResource::collection($notebooks);
     }
 
     public function store(StoreNotebookRequest $request)
@@ -32,14 +34,16 @@ class NotebookController extends Controller
         return new NotebookResource($notebook);
     }
 
-  
     public function show(Notebook $notebook)
     {
-        if (Auth::user()->id !== $notebook->user_id){
-            return $this->error('', 'You are not authorized to view this notebook', 403);
+        // Ensure the authenticated user owns the notebook
+        if (Auth::id() !== $notebook->user_id) {
+            return response()->json(['error' => 'You are not authorized to view this notebook'], 403);
         }
-        return new NotebookResource($notebook);
-        
+
+        $notebook->load('pages'); // Load the related pages
+
+        return new ThisNotebookResource($notebook);
     }
 
     public function update(Request $request, Notebook $notebook)

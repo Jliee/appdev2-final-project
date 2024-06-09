@@ -33,8 +33,14 @@ Route::group(
     ['middleware'=> ['auth:sanctum']],
     
     function () {
+        //for notebook routes
         Route::apiResource('/notebook', NotebookController::class);
-        Route::apiResource('pages', PageController::class);
+        //for notebook with pages
+        Route::post('/notebooks/{notebook}/pages', [PageController::class, 'store']);
+     
+        //for specific page routes
+        Route::apiResource('/notebooks/{notebook}/pages', PageController::class);
+      
         Route::post('/logout',[AuthController::class, 'logout']);
     }
 

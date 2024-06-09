@@ -12,9 +12,10 @@ class PageFactory extends Factory
 
     public function definition()
     {
+        $notebook = Notebook::all()->random();
+
         return [
-            'notebook_id' => Notebook::all()->random()->id, //belong to a random notebook
-            'notebook_title' => Notebook::all()->random()->title,
+            'notebook_id' => $notebook->id,
             'title' => $this->faker->sentence(5),
             'content' => $this->faker->paragraphs(3, true),
             'created_at' => now(),

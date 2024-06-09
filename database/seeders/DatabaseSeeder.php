@@ -10,9 +10,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             // TruncateTablesSeeder::class,
-            UserSeeder::class,
+            // UserSeeder::class,
             NotebookSeeder::class,
-            PageSeeder::class,
+            PageSeeder::class
         ]);
     }
 }

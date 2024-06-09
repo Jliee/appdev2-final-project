@@ -11,7 +11,6 @@ class Page extends Model
 
     protected $fillable = [
         'notebook_id', 
-        'notebook_title', 
         'title', 
         'content'];
 
